@@ -1,4 +1,4 @@
-# LookAtMe
+# Look At Me [Early dev]
  3D open world exploration game, with puzzles and some parkour.
  
  You're a monster, and now an urban legend, tired of not being taken seriously. 
