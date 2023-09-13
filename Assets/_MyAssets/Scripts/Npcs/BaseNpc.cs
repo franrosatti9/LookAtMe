@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Serialization;
 
+[SelectionBase]
 public class BaseNpc : MonoBehaviour
 {
     public Animator anim;
@@ -56,11 +57,14 @@ public class BaseNpc : MonoBehaviour
     #endregion
     public void Die()
     {
+        if (isDead) return;
+        isDead = true;
+        if(GetComponent<DialogueBase>()) DialogueManager.instance.CheckSpeakerDead(this);
+        AudioManager.instance.PlaySoundAtPosition(GlobalSfx.Explosion, transform.position);
         Instantiate(bloodFx, transform.position, Quaternion.identity);
         Instantiate(explosionFx, transform.position, Quaternion.identity);
         GameManager.instance.NpcDead();
-        // EXPLODE
-        //anim.SetTrigger("Die");
-        Destroy(gameObject);
+        GetComponentInChildren<Renderer>().enabled = false;
+        Destroy(gameObject, 0.25f);
     }
 }

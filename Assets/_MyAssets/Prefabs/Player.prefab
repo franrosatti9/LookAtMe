@@ -91,7 +91,7 @@ MonoBehaviour:
   groundLayer:
     serializedVersion: 2
     m_Bits: 64
-  camera: {fileID: 1763876512108136220}
+  cam: {fileID: 1763876512108136220}
   sensitivity: 4
 --- !u!114 &1763876511547138560
 MonoBehaviour:

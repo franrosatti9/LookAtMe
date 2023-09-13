@@ -1,7 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Serialization;
 
+[SelectionBase]
 public class Player : MonoBehaviour, IVel
 {
     public float moveSmoothTime;
@@ -12,7 +14,7 @@ public class Player : MonoBehaviour, IVel
 
     public Transform groundCheck;
     public LayerMask groundLayer;
-    public Transform camera;
+    public Transform cam;
     public float sensitivity;
 
     private CharacterController _controller;
@@ -77,7 +79,7 @@ public class Player : MonoBehaviour, IVel
         rotation.x = Mathf.Clamp(rotation.x, -90f, 90f);
 
         transform.eulerAngles = new Vector3(0f, rotation.y, 0f);
-        camera.localEulerAngles = new Vector3(rotation.x, 0f, 0f);
+        cam.localEulerAngles = new Vector3(rotation.x, 0f, 0f);
     }
 
     public void Jump()

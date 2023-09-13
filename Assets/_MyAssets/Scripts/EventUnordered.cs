@@ -17,7 +17,7 @@ public class EventUnordered : Event
     public override void CheckProgress(int id)
     {
         //if (_eventCompleted) return;
-        
+        Debug.Log("Checking steps");
         
         for (int i = 0; i < eventData.StepsAmount; i++)
         {

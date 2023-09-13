@@ -41,6 +41,7 @@ public class GameManager : MonoBehaviour
         interactedDictionary.TryAdd(id, interactedWith);
         
         OnPlayerInteracted?.Invoke(id);
+        Debug.Log("invoked event");
     }
 
     public void NpcDead()

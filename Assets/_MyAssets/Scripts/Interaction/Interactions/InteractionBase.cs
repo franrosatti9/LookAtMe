@@ -5,6 +5,10 @@ using UnityEngine;
 public class InteractionBase : MonoBehaviour, IInteractable
 {
     [SerializeField] protected string interactionText;
+    [SerializeField] protected bool interactedWhenAnimationCompleted;
+    [SerializeField] protected Animation anim;
+    
+    protected EventID interactionId = null;
     protected bool interacted = false;
     protected bool highlighted = false;
     
@@ -12,9 +16,9 @@ public class InteractionBase : MonoBehaviour, IInteractable
     public bool Highlighted() => highlighted;
     
     [SerializeField] protected ItemsEnum requiredItem;
-    void Start()
+    protected virtual void Start()
     {
-        
+        TryGetComponent<EventID>(out interactionId);
     }
 
     // Update is called once per frame
@@ -27,6 +31,14 @@ public class InteractionBase : MonoBehaviour, IInteractable
     {
         if (!PlayerHasRequiredItem()) return;
         interacted = true;
+        anim.Play();
+        if (interactionId != null)
+        {
+            // Si hay que esperar para avisar que se completo el paso del evento, se inicia la corrutina
+            if (!interactedWhenAnimationCompleted) GameManager.instance.PlayerInteracted(interactionId.id, this);
+            else StartCoroutine(WaitOnCompleteAnimation());
+        }
+        
     }
     
     public void Highlight()
@@ -54,5 +66,15 @@ public class InteractionBase : MonoBehaviour, IInteractable
     protected bool PlayerHasRequiredItem()
     {
         return GameManager.instance.GetPlayer.Inventory.HasItem(requiredItem);
+    }
+    
+    IEnumerator WaitOnCompleteAnimation()
+    {
+        while (anim.isPlaying)
+        {
+            yield return null;
+        }
+        
+        GameManager.instance.PlayerInteracted(interactionId.id, this);
     }
 }
